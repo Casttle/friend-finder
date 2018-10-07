@@ -11,6 +11,9 @@ module.exports = (app) => {
     let arrSum = friendList[0].scores.reduce((total, num) => {return total + num});
         console.log(arrSum);
     var userSum = friendList[2].scores;
+
+// Work in progress: once the survay is added to friend.js the scores are compaired to one another and the lowest difference
+// is displayed to the user in an overlay.    
     //     userSum = userSum.forEach(item =>{
     //     parseInt(item);
     // });
@@ -22,7 +25,5 @@ module.exports = (app) => {
         //     console.log(item.scores);
         // });
 
-
-        
       });   
 }
