@@ -6,24 +6,32 @@ module.exports = (app) => {
       });
 
     app.post("/api/friends", (req, res) => {
-        friendList.push(req.body);
+        let bestMatch = {
+            name: "",
+            photo: "",
+            difference: Infinity
+            };
+        let scores = req.body.scores;
+        let totalDifference;
+   
+    for (let i = 0; i < friendList.length; i++) {
+        let currentFriend = friendList[i];
+        totalDifference = 0;
 
-    let arrSum = friendList[0].scores.reduce((total, num) => {return total + num});
-        console.log(arrSum);
-    var userSum = friendList[2].scores;
+        for (let j = 0; j < currentFriend.scores.length; j++) {
+          let currentFriendScore = currentFriend.scores[j];
+          let currentUserScore = scores[j];
 
-// Work in progress: once the survay is added to friend.js the scores are compaired to one another and the lowest difference
-// is displayed to the user in an overlay.    
-    //     userSum = userSum.forEach(item =>{
-    //     parseInt(item);
-    // });
-    console.log(userSum);    
-        // userArray = friendList.pop();
-
-        // friendList.forEach(item => {
-        //     parseInt(item.scores);
-        //     console.log(item.scores);
-        // });
-
+          totalDifference += Math.abs(parseInt(currentUserScore) - parseInt(currentFriendScore));
+        }
+        if (totalDifference <= bestMatch.difference) {
+          bestMatch.name = currentFriend.name;
+          bestMatch.photo = currentFriend.photo;
+          bestMatch.difference = totalDifference;
+        }
+      }
+      friendList.push(req.body);
+  console.log(bestMatch)
+    res.json(bestMatch);       
       });   
 }
